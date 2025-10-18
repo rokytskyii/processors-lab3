@@ -1,0 +1,3 @@
+# Soft dependencies extracted from modules themselves.
+softdep wm8994 pre: wm8994_regulator
+softdep genet pre: mdio-bcm-unimac
