@@ -1,0 +1,276 @@
+
+hello.ko.unstripped:     file format elf32-littlearm
+
+
+Disassembly of section .init.text:
+
+00000000 <init_module>:
+hello_init():
+/home/rokytskyi/repos/test/hello.c:58
+};
+
+static LIST_HEAD(hello_list);
+
+static int __init hello_init(void)
+{
+   0:	e92d47f0 	push	{r4, r5, r6, r7, r8, r9, sl, lr}
+/home/rokytskyi/repos/test/hello.c:64
+	int i;
+	struct hello_entry *entry;
+
+	pr_emerg("Module init started.\n");
+
+	if (hello_count == 0 || (hello_count >= 5 && hello_count <= 10)) {
+   4:	e3004000 	movw	r4, #0
+   8:	e3404000 	movt	r4, #0
+/home/rokytskyi/repos/test/hello.c:62
+	pr_emerg("Module init started.\n");
+   c:	e3000000 	movw	r0, #0
+  10:	e3400000 	movt	r0, #0
+  14:	ebfffffe 	bl	0 <printk>
+/home/rokytskyi/repos/test/hello.c:64
+	if (hello_count == 0 || (hello_count >= 5 && hello_count <= 10)) {
+  18:	e5941000 	ldr	r1, [r4]
+  1c:	e2413005 	sub	r3, r1, #5
+  20:	e3510000 	cmp	r1, #0
+  24:	13530005 	cmpne	r3, #5
+  28:	8a000002 	bhi	38 <init_module+0x38>
+/home/rokytskyi/repos/test/hello.c:65
+		pr_warn("Warning: hello_count is %u (0 or 5-10). Continuing.\n",
+  2c:	e3000000 	movw	r0, #0
+  30:	e3400000 	movt	r0, #0
+  34:	ebfffffe 	bl	0 <printk>
+/home/rokytskyi/repos/test/hello.c:69
+			hello_count);
+	}
+
+	BUG_ON(hello_count > 10);
+  38:	e5943000 	ldr	r3, [r4]
+  3c:	e353000a 	cmp	r3, #10
+  40:	9a000000 	bls	48 <init_module+0x48>
+/home/rokytskyi/repos/test/hello.c:69 (discriminator 1)
+  44:	e7f001f2 	.word	0xe7f001f2
+kmalloc():
+/home/rokytskyi/repos/linux-stable/./include/linux/slab.h:515
+			unsigned int index = kmalloc_index(size);
+
+			if (!index)
+				return ZERO_SIZE_PTR;
+
+			return kmem_cache_alloc_trace(kmalloc_caches[index],
+  48:	e3008000 	movw	r8, #0
+  4c:	e3a090c0 	mov	r9, #192	; 0xc0
+hello_init():
+/home/rokytskyi/repos/test/hello.c:74
+
+	for (i = 0; i < hello_count; i++) {
+
+		if (i == 4) { 
+			pr_emerg("Simulating kmalloc failure (NULL pointer)!\n");
+  50:	e3007000 	movw	r7, #0
+kmalloc():
+/home/rokytskyi/repos/linux-stable/./include/linux/slab.h:515
+  54:	e3408000 	movt	r8, #0
+  58:	e3409060 	movt	r9, #96	; 0x60
+hello_init():
+/home/rokytskyi/repos/test/hello.c:74
+  5c:	e3407000 	movt	r7, #0
+/home/rokytskyi/repos/test/hello.c:71
+	for (i = 0; i < hello_count; i++) {
+  60:	e3a06000 	mov	r6, #0
+/home/rokytskyi/repos/test/hello.c:71 (discriminator 1)
+  64:	e5943000 	ldr	r3, [r4]
+  68:	e1560003 	cmp	r6, r3
+  6c:	2a000016 	bcs	cc <init_module+0xcc>
+/home/rokytskyi/repos/test/hello.c:73
+		if (i == 4) { 
+  70:	e3560004 	cmp	r6, #4
+  74:	1a000003 	bne	88 <init_module+0x88>
+/home/rokytskyi/repos/test/hello.c:74
+			pr_emerg("Simulating kmalloc failure (NULL pointer)!\n");
+  78:	e1a00007 	mov	r0, r7
+/home/rokytskyi/repos/test/hello.c:75
+			entry = NULL;
+  7c:	e3a05000 	mov	r5, #0
+/home/rokytskyi/repos/test/hello.c:74
+			pr_emerg("Simulating kmalloc failure (NULL pointer)!\n");
+  80:	ebfffffe 	bl	0 <printk>
+/home/rokytskyi/repos/test/hello.c:75
+			entry = NULL;
+  84:	ea000004 	b	9c <init_module+0x9c>
+kmalloc():
+/home/rokytskyi/repos/linux-stable/./include/linux/slab.h:515
+  88:	e3a02010 	mov	r2, #16
+  8c:	e1a01009 	mov	r1, r9
+  90:	e5980018 	ldr	r0, [r8, #24]
+  94:	ebfffffe 	bl	0 <kmem_cache_alloc_trace>
+  98:	e1a05000 	mov	r5, r0
+hello_init():
+/home/rokytskyi/repos/test/hello.c:80 (discriminator 2)
+		} else {
+			entry = kmalloc(sizeof(*entry), GFP_KERNEL);
+		}
+
+		entry->timestamp = ktime_get();
+  9c:	ebfffffe 	bl	0 <ktime_get>
+list_add_tail():
+/home/rokytskyi/repos/linux-stable/./include/linux/list.h:93 (discriminator 2)
+ * Insert a new entry before the specified head.
+ * This is useful for implementing queues.
+ */
+static inline void list_add_tail(struct list_head *new, struct list_head *head)
+{
+	__list_add(new, head->prev, head);
+  a0:	e5943008 	ldr	r3, [r4, #8]
+__list_add():
+/home/rokytskyi/repos/linux-stable/./include/linux/list.h:64 (discriminator 2)
+	new->next = next;
+  a4:	e59f2028 	ldr	r2, [pc, #40]	; d4 <init_module+0xd4>
+hello_init():
+/home/rokytskyi/repos/test/hello.c:71 (discriminator 2)
+	for (i = 0; i < hello_count; i++) {
+  a8:	e2866001 	add	r6, r6, #1
+__list_add():
+/home/rokytskyi/repos/linux-stable/./include/linux/list.h:63 (discriminator 2)
+	next->prev = new;
+  ac:	e5845008 	str	r5, [r4, #8]
+/home/rokytskyi/repos/linux-stable/./include/linux/list.h:64 (discriminator 2)
+	new->next = next;
+  b0:	e1c520f0 	strd	r2, [r5]
+hello_init():
+/home/rokytskyi/repos/test/hello.c:80 (discriminator 2)
+		entry->timestamp = ktime_get();
+  b4:	e1c500f8 	strd	r0, [r5, #8]
+/home/rokytskyi/repos/test/hello.c:84 (discriminator 2)
+
+		list_add_tail(&entry->list, &hello_list);
+
+		pr_emerg("Hello, world!\n");
+  b8:	e3000000 	movw	r0, #0
+__write_once_size():
+/home/rokytskyi/repos/linux-stable/./include/linux/compiler.h:289 (discriminator 2)
+static __always_inline void __write_once_size(volatile void *p, void *res, int size)
+{
+	switch (size) {
+	case 1: *(volatile __u8 *)p = *(__u8 *)res; break;
+	case 2: *(volatile __u16 *)p = *(__u16 *)res; break;
+	case 4: *(volatile __u32 *)p = *(__u32 *)res; break;
+  bc:	e5835000 	str	r5, [r3]
+hello_init():
+/home/rokytskyi/repos/test/hello.c:84 (discriminator 2)
+  c0:	e3400000 	movt	r0, #0
+  c4:	ebfffffe 	bl	0 <printk>
+  c8:	eaffffe5 	b	64 <init_module+0x64>
+/home/rokytskyi/repos/test/hello.c:88
+	}
+
+	return 0;
+}
+  cc:	e3a00000 	mov	r0, #0
+  d0:	e8bd87f0 	pop	{r4, r5, r6, r7, r8, r9, sl, pc}
+  d4:	00000004 	.word	0x00000004
+
+Disassembly of section .exit.text:
+
+00000000 <cleanup_module>:
+hello_exit():
+/home/rokytskyi/repos/test/hello.c:91
+
+static void __exit hello_exit(void)
+{
+   0:	e92d41f0 	push	{r4, r5, r6, r7, r8, lr}
+/home/rokytskyi/repos/test/hello.c:96
+	struct hello_entry *entry, *next;
+
+	pr_emerg("Module exit started.\n");
+
+	list_for_each_entry_safe (entry, next, &hello_list, list) {
+   4:	e3005000 	movw	r5, #0
+   8:	e3405000 	movt	r5, #0
+/home/rokytskyi/repos/test/hello.c:94
+	pr_emerg("Module exit started.\n");
+   c:	e3000000 	movw	r0, #0
+  10:	e3400000 	movt	r0, #0
+/home/rokytskyi/repos/test/hello.c:97
+		pr_info("Event time: %lld ns\n", ktime_to_ns(entry->timestamp));
+  14:	e3007000 	movw	r7, #0
+/home/rokytskyi/repos/test/hello.c:94
+	pr_emerg("Module exit started.\n");
+  18:	ebfffffe 	bl	0 <printk>
+/home/rokytskyi/repos/test/hello.c:96
+	list_for_each_entry_safe (entry, next, &hello_list, list) {
+  1c:	e5b54004 	ldr	r4, [r5, #4]!
+/home/rokytskyi/repos/test/hello.c:97
+		pr_info("Event time: %lld ns\n", ktime_to_ns(entry->timestamp));
+  20:	e3407000 	movt	r7, #0
+list_del():
+/home/rokytskyi/repos/linux-stable/./include/linux/list.h:126
+}
+
+static inline void list_del(struct list_head *entry)
+{
+	__list_del_entry(entry);
+	entry->next = LIST_POISON1;
+  24:	e3a08c01 	mov	r8, #256	; 0x100
+hello_exit():
+/home/rokytskyi/repos/test/hello.c:96
+	list_for_each_entry_safe (entry, next, &hello_list, list) {
+  28:	e5946000 	ldr	r6, [r4]
+/home/rokytskyi/repos/test/hello.c:96 (discriminator 11)
+  2c:	e1540005 	cmp	r4, r5
+  30:	0a00000d 	beq	6c <cleanup_module+0x6c>
+/home/rokytskyi/repos/test/hello.c:97 (discriminator 12)
+		pr_info("Event time: %lld ns\n", ktime_to_ns(entry->timestamp));
+  34:	e1c420d8 	ldrd	r2, [r4, #8]
+  38:	e1a00007 	mov	r0, r7
+  3c:	ebfffffe 	bl	0 <printk>
+__list_del_entry():
+/home/rokytskyi/repos/linux-stable/./include/linux/list.h:120 (discriminator 12)
+	__list_del(entry->prev, entry->next);
+  40:	e1c420d0 	ldrd	r2, [r4]
+list_del():
+/home/rokytskyi/repos/linux-stable/./include/linux/list.h:127 (discriminator 12)
+	entry->prev = LIST_POISON2;
+  44:	e3a01c02 	mov	r1, #512	; 0x200
+hello_exit():
+/home/rokytskyi/repos/test/hello.c:99 (discriminator 12)
+		list_del(&entry->list);
+		kfree(entry);
+  48:	e1a00004 	mov	r0, r4
+__list_del():
+/home/rokytskyi/repos/linux-stable/./include/linux/list.h:105 (discriminator 12)
+	next->prev = prev;
+  4c:	e5823004 	str	r3, [r2, #4]
+__write_once_size():
+/home/rokytskyi/repos/linux-stable/./include/linux/compiler.h:289 (discriminator 12)
+  50:	e5832000 	str	r2, [r3]
+list_del():
+/home/rokytskyi/repos/linux-stable/./include/linux/list.h:126 (discriminator 12)
+	entry->next = LIST_POISON1;
+  54:	e5848000 	str	r8, [r4]
+/home/rokytskyi/repos/linux-stable/./include/linux/list.h:127 (discriminator 12)
+	entry->prev = LIST_POISON2;
+  58:	e5841004 	str	r1, [r4, #4]
+hello_exit():
+/home/rokytskyi/repos/test/hello.c:96 (discriminator 12)
+	list_for_each_entry_safe (entry, next, &hello_list, list) {
+  5c:	e1a04006 	mov	r4, r6
+/home/rokytskyi/repos/test/hello.c:99 (discriminator 12)
+		kfree(entry);
+  60:	ebfffffe 	bl	0 <kfree>
+/home/rokytskyi/repos/test/hello.c:96 (discriminator 12)
+	list_for_each_entry_safe (entry, next, &hello_list, list) {
+  64:	e5966000 	ldr	r6, [r6]
+  68:	eaffffef 	b	2c <cleanup_module+0x2c>
+/home/rokytskyi/repos/test/hello.c:102
+	}
+
+	pr_emerg("Goodbye, world! List cleaned.\n");
+  6c:	e3000000 	movw	r0, #0
+  70:	e3400000 	movt	r0, #0
+/home/rokytskyi/repos/test/hello.c:103
+}
+  74:	e8bd41f0 	pop	{r4, r5, r6, r7, r8, lr}
+/home/rokytskyi/repos/test/hello.c:102
+	pr_emerg("Goodbye, world! List cleaned.\n");
+  78:	eafffffe 	b	0 <printk>
